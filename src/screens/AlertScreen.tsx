@@ -1,6 +1,8 @@
 import React from 'react';
 import {Alert, Button, View} from 'react-native';
 
+import prompt from 'react-native-prompt-android';
+
 import {HeaderTitle} from '../components/HeaderTitle';
 import {styles} from '../theme/appTheme';
 
@@ -26,13 +28,37 @@ export const AlertScreen = () => {
 
   const showPrompt = () => {
     // Este prompt sólo funciona para iOS
-    Alert.prompt(
-      'Está seguro?',
-      'Esta acción no se puede revertir',
-      (valor: string) => console.log('info: ', valor),
-      'plain-text',
-      'Hola Mundo',
-      'number-pad',
+    // Alert.prompt(
+    //   'Está seguro?',
+    //   'Esta acción no se puede revertir',
+    //   (valor: string) => console.log('info: ', valor),
+    //   'plain-text',
+    //   'Hola Mundo',
+    //   'number-pad',
+    // );
+
+    // Instalar un paquete de terceros no es necesario porque el Alert para Android (e iOS) se puede
+    // implementar con un modal
+    prompt(
+      'Enter password',
+      'Enter your password to claim your $1.5B in lottery winnings',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: password => console.log('OK Pressed, password: ' + password),
+        },
+      ],
+      {
+        type: 'secure-text',
+        cancelable: false,
+        defaultValue: 'test',
+        placeholder: 'placeholder',
+      },
     );
   };
 
@@ -41,6 +67,7 @@ export const AlertScreen = () => {
       <HeaderTitle title="Alerts" />
 
       <Button title="Mostrar Alerta" onPress={showAlert} />
+      <View style={{height: 10}} />
       <Button title="Mostrar Prompt" onPress={showPrompt} />
     </View>
   );
