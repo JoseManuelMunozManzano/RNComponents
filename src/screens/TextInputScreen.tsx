@@ -8,29 +8,21 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
   Keyboard,
+  Text,
 } from 'react-native';
+
 import {HeaderTitle} from '../components/HeaderTitle';
+import {CustomSwitch} from '../components/CustomSwitch';
+import {useForm} from '../hooks/useForm';
 import {styles} from '../theme/appTheme';
 
-interface Formulario {
-  name: string;
-  email: string;
-  phone: string;
-}
-
 export const TextInputScreen = () => {
-  const [form, setForm] = useState<Formulario>({
+  const {form, onChange, isSubscribed} = useForm({
     name: '',
     email: '',
     phone: '',
+    isSubscribed: false,
   });
-
-  const onChange = (value: string, field: keyof Formulario) => {
-    setForm({
-      ...form,
-      [field]: value,
-    });
-  };
 
   return (
     <KeyboardAvoidingView
@@ -57,6 +49,16 @@ export const TextInputScreen = () => {
               keyboardAppearance="dark"
             />
 
+            {/* Ejemplo */}
+
+            <View style={stylesScreen.switchRow}>
+              <Text style={stylesScreen.switchText}>Suscribirme</Text>
+              <CustomSwitch
+                isOn={isSubscribed}
+                onChange={value => onChange(value, 'isSubscribed')}
+              />
+            </View>
+
             <HeaderTitle title={JSON.stringify(form, null, 3)} />
             <HeaderTitle title={JSON.stringify(form, null, 3)} />
 
@@ -82,5 +84,14 @@ const stylesScreen = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 10,
     marginVertical: 10,
+  },
+  switchRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  switchText: {
+    fontSize: 25,
   },
 });
