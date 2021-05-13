@@ -9,7 +9,7 @@ export const ModalScreen = () => {
 
   return (
     <View style={styles.globalMargin}>
-      <HeaderTitle title="ModalScreen" />
+      <HeaderTitle title="Modal" />
 
       <Button title="Abrir modal" onPress={() => setIsVisible(true)} />
 
