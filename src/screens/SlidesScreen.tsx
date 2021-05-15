@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import {StackScreenProps} from '@react-navigation/stack';
+import React, {useRef, useState} from 'react';
 import {
   Dimensions,
   Image,
@@ -8,11 +9,17 @@ import {
   View,
   Platform,
   StyleSheet,
+  TouchableOpacity,
+  Animated,
 } from 'react-native';
 
 import Carousel, {Pagination} from 'react-native-snap-carousel';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-const {height: screenHeight, width: screenWidth} = Dimensions.get('window');
+import {useAnimation} from '../hooks/useAnimation';
+import {RootStackParams} from '../navigation/Navigation';
+
+const {width: screenWidth} = Dimensions.get('window');
 
 interface Slide {
   title: string;
@@ -41,8 +48,12 @@ const items: Slide[] = [
   },
 ];
 
-export const SlidesScreen = () => {
+interface Props extends StackScreenProps<RootStackParams, 'SlidesScreen'> {}
+
+export const SlidesScreen = ({navigation}: Props): JSX.Element => {
   const [activeSlide, setActiveSlide] = useState(0);
+  const isVisible = useRef(false);
+  const {opacity, fadeIn} = useAnimation();
 
   const renderItem = (item: Slide) => {
     return (
@@ -81,21 +92,53 @@ export const SlidesScreen = () => {
         renderItem={(item: {item: Slide}) => renderItem(item.item)}
         onSnapToItem={index => {
           setActiveSlide(index);
+          if (index === items.length - 1) {
+            isVisible.current = true;
+            fadeIn(600);
+          }
         }}
         sliderWidth={screenWidth}
         itemWidth={screenWidth}
         layout="default"
       />
-      <Pagination
-        dotsLength={items.length}
-        activeDotIndex={activeSlide}
-        dotStyle={{
-          width: 10,
-          height: 10,
-          borderRadius: 10,
-          backgroundColor: '#5856D6',
-        }}
-      />
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginHorizontal: 20,
+          alignItems: 'center',
+        }}>
+        <Pagination
+          dotsLength={items.length}
+          activeDotIndex={activeSlide}
+          dotStyle={{
+            width: 10,
+            height: 10,
+            borderRadius: 10,
+            backgroundColor: '#5856D6',
+          }}
+        />
+
+        {isVisible.current && (
+          <Animated.View style={{opacity}}>
+            <TouchableOpacity
+              style={{
+                flexDirection: 'row',
+                backgroundColor: '#5856D6',
+                alignItems: 'center',
+                width: 140,
+                height: 50,
+                borderRadius: 10,
+                justifyContent: 'center',
+              }}
+              activeOpacity={0.8}
+              onPress={() => navigation.navigate('HomeScreen')}>
+              <Text style={{fontSize: 25, color: 'white'}}>Entrar</Text>
+              <Icon name="chevron-forward-outline" color="white" size={30} />
+            </TouchableOpacity>
+          </Animated.View>
+        )}
+      </View>
     </SafeAreaView>
   );
 };
