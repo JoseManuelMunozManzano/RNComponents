@@ -1,6 +1,9 @@
-import React from 'react';
+import React, {useContext} from 'react';
+
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+
+import {ThemeContext} from '../context/themeContext/ThemeContext';
 
 import {HomeScreen} from '../screens/HomeScreen';
 import {Animation101Screen} from '../screens/Animation101Screen';
@@ -33,10 +36,10 @@ export type RootStackParams = {
 const Stack = createStackNavigator<RootStackParams>();
 
 export const Navigation = () => {
+  const {theme} = useContext(ThemeContext);
+
   return (
-    <NavigationContainer
-    // theme={customTheme}
-    >
+    <NavigationContainer theme={theme}>
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
