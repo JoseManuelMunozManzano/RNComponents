@@ -1,10 +1,15 @@
-import React, {useState} from 'react';
-import {ActivityIndicator, FlatList, StyleSheet, View} from 'react-native';
-import {FadeInImage} from '../components/FadeInImage';
+import React, {useContext, useState} from 'react';
+import {ActivityIndicator, FlatList, View} from 'react-native';
 
+import {ThemeContext} from '../context/themeContext/ThemeContext';
+
+import {FadeInImage} from '../components/FadeInImage';
 import {HeaderTitle} from '../components/HeaderTitle';
 
 export const InfiniteScrollScreen = () => {
+  const {
+    theme: {colors},
+  } = useContext(ThemeContext);
   const [numbers, setNumbers] = useState<number[]>([0, 1, 2, 3, 4, 5]);
 
   const loadMore = () => {
@@ -55,17 +60,10 @@ export const InfiniteScrollScreen = () => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <ActivityIndicator size={25} color="#5856D6" />
+            <ActivityIndicator size={25} color={colors.primary} />
           </View>
         )}
       />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  textItem: {
-    backgroundColor: 'green',
-    height: 150,
-  },
-});

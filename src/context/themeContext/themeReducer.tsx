@@ -5,18 +5,20 @@ type ThemeAction = {type: 'set_light_theme'} | {type: 'set_dark_theme'};
 export interface ThemeState extends Theme {
   currentTheme: 'light' | 'dark';
   dividerColor: string;
+  placeholderColor: string;
 }
 
 export const lightTheme: ThemeState = {
   currentTheme: 'light',
   dark: false,
   dividerColor: 'rgba(0,0,0,0.7)',
+  placeholderColor: 'rgba(0, 0, 0, 0.3)',
   colors: {
     primary: '#084F6A',
     background: 'white',
-    card: 'green',
+    card: 'white',
     text: 'black',
-    border: 'orange',
+    border: 'black',
     notification: 'teal',
   },
 };
@@ -24,13 +26,14 @@ export const lightTheme: ThemeState = {
 export const darkTheme: ThemeState = {
   currentTheme: 'dark',
   dark: true,
-  dividerColor: 'rgba(0,0,0,0.7)',
+  dividerColor: 'rgba(255,255,255,0.7)',
+  placeholderColor: 'rgba(255, 255, 255, 0.7)',
   colors: {
     primary: '#75CEDB',
     background: 'black',
-    card: 'green',
+    card: 'black',
     text: 'white',
-    border: 'orange',
+    border: 'white',
     notification: 'teal',
   },
 };
@@ -49,7 +52,7 @@ export const themeReducer = (
       //
       // constituya una mala práctica de programación.
       // Se deja así para verlo mås fácilmente, pero en realidad deberían de estar todas las propiedades de ligthTheme en el
-      // return (como se ve más abajo) o enviar el Theme en el payload):
+      // return (como se ve más abajo) o enviar el Theme en el payload:
       //
       // return {
       //   currentTheme: 'light',

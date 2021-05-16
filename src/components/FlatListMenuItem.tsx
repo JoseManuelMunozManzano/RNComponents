@@ -5,6 +5,7 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 
 import {ThemeContext} from '../context/themeContext/ThemeContext';
+
 import {MenuItem} from '../interfaces/appInterfaces';
 
 interface Props {
@@ -25,7 +26,7 @@ export const FlatListMenuItem = ({menuItem}: Props) => {
       onPress={() => navigation.navigate(menuItem.component)}>
       <View style={styles.container}>
         <Icon name={icon} color={colors.primary} size={23} />
-        <Text style={styles.itemText}>{name}</Text>
+        <Text style={{...styles.itemText, color: colors.text}}>{name}</Text>
 
         <View style={{flex: 1}} />
 

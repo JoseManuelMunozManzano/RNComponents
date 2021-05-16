@@ -1,5 +1,5 @@
 import {StackScreenProps} from '@react-navigation/stack';
-import React, {useRef, useState} from 'react';
+import React, {useContext, useRef, useState} from 'react';
 import {
   Dimensions,
   Image,
@@ -15,6 +15,8 @@ import {
 
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import Icon from 'react-native-vector-icons/Ionicons';
+
+import {ThemeContext} from '../context/themeContext/ThemeContext';
 
 import {useAnimation} from '../hooks/useAnimation';
 import {RootStackParams} from '../navigation/Navigation';
@@ -51,6 +53,9 @@ const items: Slide[] = [
 interface Props extends StackScreenProps<RootStackParams, 'SlidesScreen'> {}
 
 export const SlidesScreen = ({navigation}: Props): JSX.Element => {
+  const {
+    theme: {colors},
+  } = useContext(ThemeContext);
   const [activeSlide, setActiveSlide] = useState(0);
   const isVisible = useRef(false);
   const {opacity, fadeIn} = useAnimation();
@@ -60,7 +65,7 @@ export const SlidesScreen = ({navigation}: Props): JSX.Element => {
       <View
         style={{
           flex: 1,
-          backgroundColor: 'white',
+          backgroundColor: colors.background,
           borderRadius: 5,
           padding: 40,
           justifyContent: 'center',
@@ -74,8 +79,12 @@ export const SlidesScreen = ({navigation}: Props): JSX.Element => {
           }}
         />
 
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.subtitle}>{item.desc}</Text>
+        <Text style={{...styles.title, color: colors.primary}}>
+          {item.title}
+        </Text>
+        <Text style={{...styles.subtitle, color: colors.text}}>
+          {item.desc}
+        </Text>
       </View>
     );
   };
@@ -115,7 +124,7 @@ export const SlidesScreen = ({navigation}: Props): JSX.Element => {
             width: 10,
             height: 10,
             borderRadius: 10,
-            backgroundColor: '#5856D6',
+            backgroundColor: colors.primary,
           }}
         />
 
@@ -124,7 +133,7 @@ export const SlidesScreen = ({navigation}: Props): JSX.Element => {
             <TouchableOpacity
               style={{
                 flexDirection: 'row',
-                backgroundColor: '#5856D6',
+                backgroundColor: colors.primary,
                 alignItems: 'center',
                 width: 140,
                 height: 50,
@@ -147,7 +156,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: 'bold',
-    color: '#5856D6',
   },
   subtitle: {
     fontSize: 16,

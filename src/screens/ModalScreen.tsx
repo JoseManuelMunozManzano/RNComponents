@@ -1,10 +1,15 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Button, Modal, Text, View} from 'react-native';
+
+import {ThemeContext} from '../context/themeContext/ThemeContext';
 
 import {HeaderTitle} from '../components/HeaderTitle';
 import {styles} from '../theme/appTheme';
 
 export const ModalScreen = () => {
+  const {
+    theme: {colors},
+  } = useContext(ThemeContext);
   const [isVisible, setIsVisible] = useState(false);
 
   return (
